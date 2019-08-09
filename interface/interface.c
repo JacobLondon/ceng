@@ -20,7 +20,7 @@ void interface_construct(struct Interface* self, const char* title, int width, i
 
     self->width = width;
     self->height = height;
-    self->background = (struct Color){WHITE};
+    self->background = WHITE;
     self->mouse = (struct Mouse){0, 0};
     self->loop = true;
     self->fps = fps;
@@ -63,7 +63,7 @@ void handle_input(struct Interface* self)
 
 void handle_graphics(struct Interface* self)
 {
-    interface_setcol(self, COLOR(BLUE));
+    interface_setcol(self, BLUE);
     SDL_Rect r = {self->mouse.x - 50, self->mouse.y - 50, 100, 100};
     SDL_RenderFillRect(renderer, &r);
 }

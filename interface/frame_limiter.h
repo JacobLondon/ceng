@@ -14,6 +14,7 @@ typedef struct FrameLimiter {
     double frame_time;  // time spent in the frame
     long target_uspf;   // target microseconds per frame
     long actual_uspf;   // actual microseconds per frame
+    long usleft;
     clock_t timestamp;
 } FrameLimiter;
 
@@ -26,6 +27,7 @@ typedef struct FrameLimiter {
     .frame_time = 0, \
     .target_uspf = (long)(USEC_CONVERSION / _target_fps), \
     .actual_uspf = 0, \
+    .usleft = 0, \
     .timestamp = clock(), \
 }
 

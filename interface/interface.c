@@ -40,6 +40,7 @@ void interface_run(struct Interface* self)
     while (self->loop) {
         interface_clear(self);
         handle_input(self);
+        handle_graphics(self);
         interface_update(self);
         frame_limiter_wait(&frame_limiter);
     }
@@ -58,6 +59,13 @@ void handle_input(struct Interface* self)
             break;
         }
     }
+}
+
+void handle_graphics(struct Interface* self)
+{
+    interface_setcol(self, COLOR(BLUE));
+    SDL_Rect r = {self->mouse.x - 50, self->mouse.y - 50, 100, 100};
+    SDL_RenderFillRect(renderer, &r);
 }
 
 void interface_clear(struct Interface* self)

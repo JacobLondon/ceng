@@ -3,9 +3,7 @@
 
 int main(int argc, char** argv)
 {
-    // initialize global interface and SDL window/renderer
-    interface_construct(&interface, "Title", 1080, 720, 60);
-    // poll SDL events and draw frames
+    interface_construct(&interface, "CENG", 1080, 720, 60);
     interface_run(&interface);
     interface_destruct(&interface);
 }

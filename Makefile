@@ -2,18 +2,20 @@ binary=ceng
 
 # no dependency
 # objects
-window=graphics/window
+frame_limiter=interface/frame_limiter
+interface=interface/interface
 # highest level
 globals=util/globals
 main=main
 
-objectfiles=$(window).o \
+objectfiles=$(interface).o $(frame_limiter).o \
 	$(globals).o $(main).o
 
 all:
 	# no dependency
 	# objects
-	gcc -c $(window).c -o $(window).o
+	gcc -c $(interface).c -o $(interface).o
+	gcc -c $(frame_limiter).c -o $(frame_limiter).o
 	# highest level
 	gcc -c $(globals).c -o $(globals).o
 	gcc -c $(main).c -o $(main).o

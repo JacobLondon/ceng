@@ -1,13 +1,11 @@
-#include <stdio.h>
-
-#include <SDL2/SDL.h>
-
 #include "util/globals.h"
-#include "graphics/window.h"
+#include "interface/interface.h"
 
 int main(int argc, char** argv)
 {
-    window_construct(&window, "Title", 1080, 720);
-    window_run(&window);
-    window_destruct(&window);
+    // initialize global interface and SDL window/renderer
+    interface_construct(&interface, "Title", 1080, 720, 60);
+    // poll SDL events and draw frames
+    interface_run(&interface);
+    interface_destruct(&interface);
 }

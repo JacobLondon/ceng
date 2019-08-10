@@ -63,9 +63,19 @@ void handle_input(struct Interface* self)
 
 void handle_graphics(struct Interface* self)
 {
-    interface_setcol(self, BLUE);
-    SDL_Rect r = {self->mouse.x - 50, self->mouse.y - 50, 100, 100};
-    SDL_RenderFillRect(renderer, &r);
+    for (int i = 0; i < self->func_index; i++) {
+        (self->draw_funcs[i])();
+    }
+}
+
+void draw_function_append(struct Interface* self, void (* func))
+{
+    if (self->func_index + 1 < INTERFACE_MAX_DRAW_FUNCS)
+        self->draw_funcs[self->func_index++] = func;
+    else {
+        printf("Error: 'draw_function_append' index exceeds maximum draw functions.\n");
+        exit(-1);
+    }
 }
 
 void interface_clear(struct Interface* self)

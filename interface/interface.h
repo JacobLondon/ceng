@@ -8,9 +8,12 @@
 #include "color.h"
 #include "mouse.h"
 
+#define INTERFACE_MAX_DRAW_FUNCS 32
+
 /**
  * \brief Interface with the global SDL_Window/Renderer
  */
+typedef void (* funcp)();
 typedef struct Interface {
     int width;
     int height;
@@ -18,9 +21,13 @@ typedef struct Interface {
     struct Mouse mouse;
     bool loop;
     double fps;
+    funcp draw_funcs[INTERFACE_MAX_DRAW_FUNCS];
+    int func_index;
 } Interface;
 
-#define INTERFACE_INIT {}
+#define INTERFACE_INIT { \
+    .func_index = 0, \
+}
 
 /**
  * \brief Initialize global interface and SDL window/renderer.
@@ -42,6 +49,10 @@ void handle_input(struct Interface* self);
  * \brief Draw graphics each frame.
  */
 void handle_graphics(struct Interface* self);
+/**
+ * \brief Insert a function which will draw each frame.
+ */
+void draw_function_append(struct Interface* self, void (* func));
 /**
  * \brief Clear the interface to its default background color.
  */

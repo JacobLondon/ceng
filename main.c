@@ -14,5 +14,5 @@ int main(int argc, char** argv)
 
 void setup()
 {
-    draw_function_append(&interface, draw_cursor);
+    interface_append_draw_func(&interface, draw_cursor);
 }

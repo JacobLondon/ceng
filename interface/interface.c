@@ -63,7 +63,7 @@ void interface_graphics(struct Interface* self)
     }
 }
 
-void draw_function_append(struct Interface* self, void (* func))
+void interface_append_draw_func(struct Interface* self, void (* func))
 {
     if (self->draw_func_index + 1 < INTERFACE_MAX_DRAW_FUNCS)
         self->draw_funcs[self->draw_func_index++] = func;

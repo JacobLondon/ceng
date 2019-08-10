@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 
 #include "color.h"
+#include "frame_limiter.h"
 #include "mouse.h"
 
 #define INTERFACE_MAX_DRAW_FUNCS 32
@@ -15,18 +16,32 @@
  */
 typedef void (* funcp)();
 typedef struct Interface {
-    int width;
-    int height;
+    // user initializer
+
+    // screen width and height
+    int width, height;
+    // target fps initializer
+    struct FrameLimiter frame_limiter;
+
+    // auto initializer
+    
+    // screen background color
     struct Color background;
+    // mouse coordinates
     struct Mouse mouse;
+    // program loop boolean
     bool loop;
-    double fps;
+    // array to hold function pointers which draw graphics
     funcp draw_funcs[INTERFACE_MAX_DRAW_FUNCS];
-    int func_index;
+    // draw_funcs current append index
+    int draw_func_index;
 } Interface;
 
 #define INTERFACE_INIT { \
-    .func_index = 0, \
+    .background = WHITE, \
+    .mouse = (struct Mouse){0, 0}, \
+    .loop = true, \
+    .draw_func_index = 0, \
 }
 
 /**
@@ -44,11 +59,11 @@ void interface_run(struct Interface* self);
 /**
  * \brief Poll SDL events.
  */
-void handle_input(struct Interface* self);
+void interface_input(struct Interface* self);
 /**
  * \brief Draw graphics each frame.
  */
-void handle_graphics(struct Interface* self);
+void interface_graphics(struct Interface* self);
 /**
  * \brief Insert a function which will draw each frame.
  */
@@ -64,6 +79,6 @@ void interface_update(struct Interface* self);
 /**
  * \brief Set the global renderer's drawing color.
  */
-void interface_setcol(struct Interface* self, Color c);
+void interface_draw_color(struct Interface* self, Color c);
 
 #endif // INTERFACE_H

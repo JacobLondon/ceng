@@ -14,14 +14,14 @@ typedef struct FrameLimiter {
     double frame_time;  // time spent in the frame
     long target_uspf;   // target microseconds per frame
     long actual_uspf;   // actual microseconds per frame
-    long usleft;
-    clock_t timestamp;
+    long usleft;        // time to sleep after actual time passed to reach target time
+    clock_t timestamp;  // record each frame time
 } FrameLimiter;
 
 /**
  * \brief FrameLimiter initializer, specify the target frames per second.
  */
-#define FRAME_LIMITER_INIT(_target_fps) { \
+#define FRAME_LIMITER_INIT(_target_fps) (struct FrameLimiter){ \
     .target_fps = _target_fps, \
     .fps = 0, \
     .frame_time = 0, \

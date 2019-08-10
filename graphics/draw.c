@@ -1,4 +1,4 @@
-#include "draw_functions.h"
+#include "draw.h"
 
 #include "../util/globals.h" // access to global interface
 
@@ -8,7 +8,7 @@
 
 void draw_cursor()
 {
-    interface_setcol(&interface, BLUE);
+    interface_draw_color(&interface, BLUE);
     SDL_Rect r = {interface.mouse.x - 50, interface.mouse.y - 50, 100, 100};
     SDL_RenderFillRect(renderer, &r);
 }

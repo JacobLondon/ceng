@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #include "color.h"
-#include "frame_limiter.h"
 #include "interface.h"
 #include "mouse.h"
 #include "../util/globals.h"
@@ -18,12 +17,10 @@ void interface_construct(struct Interface* self, const char* title, int width, i
     if (!renderer)
         perror("Error: 'interface_construct' SDL Renderer failed to initialize.\n");
 
+    // initializer
     self->width = width;
     self->height = height;
-    self->background = WHITE;
-    self->mouse = (struct Mouse){0, 0};
-    self->loop = true;
-    self->fps = fps;
+    self->frame_limiter = FRAME_LIMITER_INIT(fps);
 }
 
 void interface_destruct(struct Interface* self)
@@ -35,18 +32,16 @@ void interface_destruct(struct Interface* self)
 
 void interface_run(struct Interface* self)
 {
-    struct FrameLimiter frame_limiter = FRAME_LIMITER_INIT(self->fps);
-    
     while (self->loop) {
         interface_clear(self);
-        handle_input(self);
-        handle_graphics(self);
+        interface_input(self);
+        interface_graphics(self);
         interface_update(self);
-        frame_limiter_wait(&frame_limiter);
+        frame_limiter_wait(&self->frame_limiter);
     }
 }
 
-void handle_input(struct Interface* self)
+void interface_input(struct Interface* self)
 {
     SDL_Event e;
 
@@ -61,17 +56,17 @@ void handle_input(struct Interface* self)
     }
 }
 
-void handle_graphics(struct Interface* self)
+void interface_graphics(struct Interface* self)
 {
-    for (int i = 0; i < self->func_index; i++) {
+    for (int i = 0; i < self->draw_func_index; i++) {
         (self->draw_funcs[i])();
     }
 }
 
 void draw_function_append(struct Interface* self, void (* func))
 {
-    if (self->func_index + 1 < INTERFACE_MAX_DRAW_FUNCS)
-        self->draw_funcs[self->func_index++] = func;
+    if (self->draw_func_index + 1 < INTERFACE_MAX_DRAW_FUNCS)
+        self->draw_funcs[self->draw_func_index++] = func;
     else {
         printf("Error: 'draw_function_append' index exceeds maximum draw functions.\n");
         exit(-1);
@@ -80,7 +75,7 @@ void draw_function_append(struct Interface* self, void (* func))
 
 void interface_clear(struct Interface* self)
 {
-    interface_setcol(self, self->background);
+    interface_draw_color(self, self->background);
     SDL_RenderClear(renderer);
 }
 
@@ -89,7 +84,7 @@ void interface_update(struct Interface* self)
     SDL_RenderPresent(renderer);
 }
 
-void interface_setcol(struct Interface* self, Color c)
+void interface_draw_color(struct Interface* self, Color c)
 {
     SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
 }

@@ -1,4 +1,5 @@
 binary=ceng
+compiler=gcc
 
 # no dependency
 # objects
@@ -6,7 +7,7 @@ frame_limiter=interface/frame_limiter
 interface=interface/interface
 # highest level
 globals=util/globals
-draw_functions=graphics/draw_functions
+draw_functions=graphics/draw
 main=main
 
 objectfiles=$(interface).o $(frame_limiter).o \
@@ -14,13 +15,13 @@ objectfiles=$(interface).o $(frame_limiter).o \
 
 all:
 	# objects
-	gcc -c $(interface).c -o $(interface).o
-	gcc -c $(frame_limiter).c -o $(frame_limiter).o
+	$(compiler) -c $(interface).c -o $(interface).o
+	$(compiler) -c $(frame_limiter).c -o $(frame_limiter).o
 	# highest level
-	gcc -c $(globals).c -o $(globals).o
-	gcc -c $(draw_functions).c -o $(draw_functions).o
-	gcc -c $(main).c -o $(main).o
+	$(compiler) -c $(globals).c -o $(globals).o
+	$(compiler) -c $(draw_functions).c -o $(draw_functions).o
+	$(compiler) -c $(main).c -o $(main).o
 	# compile
-	gcc $(objectfiles) -o $(binary) -lSDL2
+	$(compiler) $(objectfiles) -o $(binary) -lSDL2
 clean:
 	rm $(objectfiles) $(binary)

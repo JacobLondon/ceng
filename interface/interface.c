@@ -21,6 +21,7 @@ void interface_construct(struct Interface* self, const char* title, int width, i
     self->width = width;
     self->height = height;
     self->frame_limiter = FRAME_LIMITER_INIT(fps);
+    for (int i = 0; i < INTERFACE_SDL_KEYS; self->keys[i++] = false);
 }
 
 void interface_destruct(struct Interface* self)
@@ -34,41 +35,75 @@ void interface_run(struct Interface* self)
 {
     while (self->loop) {
         interface_clear(self);
-        interface_input(self);
+        interface_input_read(self);
+        interface_input_exec(self);
         interface_graphics(self);
         interface_update(self);
         frame_limiter_wait(&self->frame_limiter);
     }
 }
 
-void interface_input(struct Interface* self)
+void interface_input_read(struct Interface* self)
 {
     SDL_Event e;
 
     SDL_GetMouseState(&self->mouse.x, &self->mouse.y);
 
+    // read all events
     while (SDL_PollEvent(&e)) {
-        switch (e.type) {
+        switch(e.type) {
         case SDL_QUIT:
             self->loop = false;
+            break;
+        case SDL_KEYDOWN:
+            if (e.key.keysym.sym < INTERFACE_SDL_KEYS)
+                self->keys[e.key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            if (e.key.keysym.sym < INTERFACE_SDL_KEYS)
+                self->keys[e.key.keysym.sym] = false;
+            break;
+        default:
             break;
         }
     }
 }
 
+void interface_input_exec(struct Interface* self)
+{
+    // traverse loaded events
+    for (int i = 0; i < self->event_len; i++) {
+        // the current event's key is 'true'
+        if (self->keys[self->events[i].key])
+            self->events[i].action();
+    }
+}
+
 void interface_graphics(struct Interface* self)
 {
-    for (int i = 0; i < self->draw_func_index; i++) {
+    for (int i = 0; i < self->draw_func_len; i++) {
         (self->draw_funcs[i])();
     }
 }
 
 void interface_append_draw_func(struct Interface* self, void (* func))
 {
-    if (self->draw_func_index + 1 < INTERFACE_MAX_DRAW_FUNCS)
-        self->draw_funcs[self->draw_func_index++] = func;
+    if (self->draw_func_len < INTERFACE_MAX_DRAW_FUNCS)
+        self->draw_funcs[self->draw_func_len++] = func;
     else {
-        printf("Error: 'draw_function_append' index exceeds maximum draw functions.\n");
+        printf("Error: 'interface_append_draw_func' index exceeds maximum draw functions.\n");
+        exit(-1);
+    }
+}
+
+void interface_append_event(struct Interface* self, int key, void (* action)())
+{
+    struct Event event = EVENT_INIT(key, action);
+
+    if (self->event_len < INTERFACE_MAX_EVENTS)
+        self->events[self->event_len++] = event;
+    else {
+        printf("Error: 'interface_append_event' index exceeds maximum events.\n");
         exit(-1);
     }
 }

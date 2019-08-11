@@ -2,3 +2,4 @@
 .DS_Store
 ceng
 *.o
+core

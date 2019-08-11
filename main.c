@@ -2,6 +2,7 @@
 #include "graphics/draw.h"
 
 void setup();
+void test();
 
 int main(int argc, char** argv)
 {
@@ -15,4 +16,10 @@ int main(int argc, char** argv)
 void setup()
 {
     interface_append_draw_func(&interface, draw_cursor);
+    interface_append_event(&interface, SDLK_SPACE, test);
+}
+
+void test()
+{
+    printf("test\n");
 }

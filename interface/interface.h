@@ -12,6 +12,7 @@
 
 #define INTERFACE_MAX_DRAW_FUNCS 32
 #define INTERFACE_MAX_EVENTS 64
+#define INTERFACE_SDL_KEYS 322
 
 /**
  * \brief Interface with the global SDL_Window/Renderer
@@ -35,17 +36,21 @@ typedef struct Interface {
     bool loop;
     // hold all of the events
     struct Event events[INTERFACE_MAX_EVENTS];
+    // events index
+    int event_len;
+    bool keys[INTERFACE_SDL_KEYS];
     // array to hold function pointers which draw graphics
     funcp draw_funcs[INTERFACE_MAX_DRAW_FUNCS];
     // draw_funcs current append index
-    int draw_func_index;
+    int draw_func_len;
 } Interface;
 
 #define INTERFACE_INIT { \
     .background = WHITE, \
     .mouse = (struct Mouse){0, 0}, \
     .loop = true, \
-    .draw_func_index = 0, \
+    .draw_func_len = 0, \
+    .event_len = 0, \
 }
 
 /**
@@ -61,9 +66,13 @@ void interface_destruct(struct Interface* self);
  */
 void interface_run(struct Interface* self);
 /**
- * \brief Poll SDL events.
+ * \brief Poll and record SDL events.
  */
-void interface_input(struct Interface* self);
+void interface_input_read(struct Interface* self);
+/**
+ * \brief Execute registered events.
+ */
+void interface_input_exec(struct Interface* self);
 /**
  * \brief Draw graphics each frame.
  */
@@ -73,6 +82,10 @@ void interface_graphics(struct Interface* self);
  * \param func A void function with no args to be called in order.
  */
 void interface_append_draw_func(struct Interface* self, void (* func));
+/**
+ * \brief Insert an Event with a SDL key and a function for it to trigger
+ */
+void interface_append_event(struct Interface* self, int key, void (*)());
 /**
  * \brief Clear the interface to its default background color.
  */

@@ -15,8 +15,7 @@ objectfiles=$(interface).o $(frame_limiter).o \
 %.o: %.c
 	$(CC) -c $< -o $@
 
-all:
-	$(objectfiles)
-	$(CC) $(objectfiles) -o $(binary) -lSDL2 -Wall -ggdb
+all: $(objectfiles)
+	$(CC) $(objectfiles) -o $(TARGET) -lSDL2 -Wall
 clean:
 	rm $(objectfiles) $(TARGET) core

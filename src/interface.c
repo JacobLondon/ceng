@@ -3,7 +3,7 @@
 #include "color.h"
 #include "interface.h"
 #include "mouse.h"
-#include "../util/globals.h"
+#include "globals.h"
 
 void interface_construct(struct Interface* self, const char* title, int width, int height, double fps)
 {

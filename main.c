@@ -1,5 +1,5 @@
-#include "util/globals.h"
-#include "graphics/draw.h"
+#include "src/globals.h"
+#include "src/draw.h"
 
 void setup();
 void test();

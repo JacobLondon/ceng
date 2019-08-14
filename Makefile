@@ -1,21 +1,22 @@
 CC=gcc
 TARGET=ceng
 
-# objects
-frame_limiter=interface/frame_limiter
-interface=interface/interface
-# highest level
-globals=util/globals
-draw_functions=graphics/draw
-main=main
+# order by dependency
+FRAME_LIMITER=src/frame_limiter
+INTERFACE=src/interface
 
-objectfiles=$(interface).o $(frame_limiter).o \
-	$(globals).o $(draw_functions).o $(main).o
+GLOBALS=src/globals
+DRAW=src/draw
+
+MAIN=main
+
+OBJS=$(INTERFACE).o $(FRAME_LIMITER).o \
+	$(GLOBALS).o $(DRAW).o $(MAIN).o
 
 %.o: %.c
 	$(CC) -c $< -o $@
-
-all: $(objectfiles)
-	$(CC) $(objectfiles) -o $(TARGET) -lSDL2 -Wall
+all: $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) -lSDL2 -Wall
+	rm $(OBJS)
 clean:
-	rm $(objectfiles) $(TARGET) core
+	rm $(TARGET) core

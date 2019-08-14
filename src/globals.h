@@ -2,7 +2,7 @@
 #define GLOBALS_H
 
 #include <SDL2/SDL.h>
-#include "../interface/interface.h"
+#include "interface.h"
 
 // globally accessible Interface object
 extern struct Interface interface;

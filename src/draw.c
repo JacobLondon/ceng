@@ -1,6 +1,6 @@
 #include "draw.h"
 
-#include "../util/globals.h" // access to global interface
+#include "globals.h" // access to global interface
 
 /**
  * Define drawing functions here.

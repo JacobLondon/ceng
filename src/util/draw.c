@@ -1,6 +1,12 @@
 #include "draw.h"
 
-#include "globals.h" // access to global interface
+#include "../globals.h" // interface
+
+
+void draw_setup()
+{
+    interface_append_draw_func(&interface, draw_cursor);
+}
 
 /**
  * Define drawing functions here.

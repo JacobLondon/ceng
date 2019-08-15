@@ -72,7 +72,7 @@ void interface_input_read(struct Interface* self)
 void interface_input_exec(struct Interface* self)
 {
     // traverse loaded events
-    for (int i = 0; i < self->event_len; i++) {
+    for (int i = 0; i < self->events_len; i++) {
         // the current event's key is 'true'
         if (self->keys[self->events[i].key])
             self->events[i].action();
@@ -81,15 +81,20 @@ void interface_input_exec(struct Interface* self)
 
 void interface_graphics(struct Interface* self)
 {
-    for (int i = 0; i < self->draw_func_len; i++) {
+    int i;
+    for (i = 0; i < self->objects_len; i++) {
+        self->objects[i].draw(&self->objects[i]);
+    }
+
+    for (i = 0; i < self->draw_funcs_len; i++) {
         (self->draw_funcs[i])();
     }
 }
 
 void interface_append_draw_func(struct Interface* self, void (* func))
 {
-    if (self->draw_func_len < INTERFACE_MAX_DRAW_FUNCS)
-        self->draw_funcs[self->draw_func_len++] = func;
+    if (self->draw_funcs_len < INTERFACE_MAX_DRAW_FUNCS)
+        self->draw_funcs[self->draw_funcs_len++] = func;
     else {
         printf("Error: 'interface_append_draw_func' index exceeds maximum draw functions.\n");
         exit(-1);
@@ -100,10 +105,20 @@ void interface_append_event(struct Interface* self, int key, void (* action)())
 {
     struct Event event = EVENT_INIT(key, action);
 
-    if (self->event_len < INTERFACE_MAX_EVENTS)
-        self->events[self->event_len++] = event;
+    if (self->events_len < INTERFACE_MAX_EVENTS)
+        self->events[self->events_len++] = event;
     else {
         printf("Error: 'interface_append_event' index exceeds maximum events.\n");
+        exit(-1);
+    }
+}
+
+void interface_append_object(struct Interface* self, struct Object object)
+{
+    if (self->objects_len < INTERFACE_MAX_OBECTS)
+        self->objects[self->objects_len++] = object;
+    else {
+        printf("Error: 'interface_append_object' index exceeds maximum events.\n");
         exit(-1);
     }
 }

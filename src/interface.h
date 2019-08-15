@@ -9,10 +9,12 @@
 #include "event.h"
 #include "frame_limiter.h"
 #include "mouse.h"
+#include "util/object.h"
 
 #define INTERFACE_MAX_DRAW_FUNCS 32
 #define INTERFACE_MAX_EVENTS 64
 #define INTERFACE_SDL_KEYS 322
+#define INTERFACE_MAX_OBECTS 64
 
 /**
  * \brief Interface with the global SDL_Window/Renderer
@@ -36,21 +38,24 @@ typedef struct Interface {
     bool loop;
     // hold all of the events
     struct Event events[INTERFACE_MAX_EVENTS];
-    // events index
-    int event_len;
+    int events_len;
+    // keys pressed
     bool keys[INTERFACE_SDL_KEYS];
     // array to hold function pointers which draw graphics
     funcp draw_funcs[INTERFACE_MAX_DRAW_FUNCS];
-    // draw_funcs current append index
-    int draw_func_len;
+    int draw_funcs_len;
+    // all of the objects to draw on screen
+    struct Object objects[INTERFACE_MAX_OBECTS];
+    int objects_len;
 } Interface;
 
 #define INTERFACE_INIT { \
     .background = WHITE, \
     .mouse = (struct Mouse){0, 0}, \
     .loop = true, \
-    .draw_func_len = 0, \
-    .event_len = 0, \
+    .events_len = 0, \
+    .draw_funcs_len = 0, \
+    .objects_len = 0, \
 }
 
 /**
@@ -86,6 +91,10 @@ void interface_append_draw_func(struct Interface* self, void (* func));
  * \brief Insert an Event with a SDL key and a function for it to trigger
  */
 void interface_append_event(struct Interface* self, int key, void (*)());
+/**
+ * \brief Insert an Object
+ */
+void interface_append_object(struct Interface* self, struct Object object);
 /**
  * \brief Clear the interface to its default background color.
  */

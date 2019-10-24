@@ -9,8 +9,6 @@ Window *window_new(char *name, int width, int height)
     self->name = name;
     self->width = width;
     self->height = height;
-    self->mouse.x = 0;
-    self->mouse.y = 0;
     self->quit = false;
     
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -27,7 +25,7 @@ Window *window_new(char *name, int width, int height)
         exit(-1);
     }
     self->sdl_rend = SDL_CreateRenderer(self->sdl_win, -1, 0);
-    if (!renderer) {
+    if (!self->sdl_rend) {
         fprintf(stderr, "Error: failed to initialize SDL Renderer\n");
         exit(-1);
     }

@@ -1,29 +1,15 @@
-CC=gcc
-CFLAGS=-lSDL2 -Wall -ggdb
 TARGET=ceng
 
-# order by dependency
+CC=gcc
+CFLAGS=-lSDL2 -O2 -Wall -Wextra
 
-FRAME_LIMITER=src/frame_limiter
-INTERFACE=src/interface
+OBJ_FILES=src/array.o src/context.o src/globals.o src/painter.o src/window.o \
+		  main.o
 
-GLOBALS=src/globals
+.PHONY: clean
 
-DRAW=src/util/draw
-CONTROL=src/util/control
-OBJECT=src/util/object
+$(TARGET) : $(OBJ_FILES)
+	$(CC) -o $(TARGET) $(OBJ_FILES) $(CFLAGS)
 
-MAIN=main
-
-OBJS=$(INTERFACE).o $(FRAME_LIMITER).o \
-	$(GLOBALS).o \
-	$(DRAW).o $(CONTROL).o $(OBJECT).o \
-	$(MAIN).o
-
-%.o: %.c
-	$(CC) -c $< -o $@
-all: $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET) $(CFLAGS)
-	rm $(OBJS)
 clean:
-	rm $(TARGET) $(OBJS) core
+	rm -rf $(TARGET) $(OBJ_FILES) core

@@ -1,8 +1,12 @@
 #include "src/ceng.h"
 
-int main(int argc, char** argv)
+int main()
 {
-    window = window_new("Ceng", 480, 640);
+    Window *window = window_new("Ceng", 480, 640);
+    Context *ctx   = context_new(window);
 
+    context_run(ctx);
+
+    context_free(ctx);
     window_free(window);
 }

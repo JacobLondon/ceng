@@ -1,8 +1,4 @@
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef CENG_GLOBALS_H_
+#define CENG_GLOBALS_H_
 
-#include "window.h"
-
-extern Window *window;
-
-#endif // GLOBALS_H
+#endif // CENG_GLOBALS_H_

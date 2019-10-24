@@ -1,23 +1,33 @@
 #ifndef CENG_CONTEXT_H_
 #define CENG_CONTEXT_H_
 
-typedef struct context_s {
-    
-} Context;
+#include "array.h"
+#include "color.h"
+#include "window.h"
 
-Context *context_new();
-
-#define EVENT_COUNT 64
+typedef void (* event_fn)(void);
 
 typedef struct event_s {
-    int key;
-    void (* action[EVENT_COUNT])(void);
+    bool *req;
+    event_fn action;
 } Event;
 
+Event event_new(bool *req, event_fn action);
+
+typedef struct context_s {
+    Window *window;
+    Array *events;
+    struct mouse_s {
+        int x, y;
+    } mouse;
+    Color bgc;
+} Context;
+
+Context *context_new(Window *window);
+void context_free(Context *self);
 void context_run(Context *self);
 void context_draw(Context *self);
 void context_poll(Context *self);
 void context_update(Context *self);
-void context_color(Context *self, Color c);
 
 #endif // CENG_CONTEXT_H_

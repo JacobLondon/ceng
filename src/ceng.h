@@ -1,7 +1,7 @@
-#ifndef CENG_H
-#define CENG_H
+#ifndef CENG_CENG_H_
+#define CENG_CENG_H_
 
 #include "globals.h"
-#include "window.h"
+#include "context.h"
 
-#endif // CENG_H
+#endif // CENG_CENG_H_

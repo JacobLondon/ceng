@@ -16,7 +16,7 @@ Context *context_new(Window *window)
     self->events  = array_new(sizeof(event_fn), NULL);
     self->mouse.x = 0;
     self->mouse.y = 0;
-    self->bgc     = BLACK;
+    self->back    = BLACK;
 
     return self;
 }
@@ -33,21 +33,21 @@ void context_free(Context *self)
 void context_run(Context *self)
 {
     while (!self->window->quit) {
-        painter_clear(self->window->sdl_rend, self->bgc);
+        painter_clear(self->window->sdl_rend, self->back);
 
         context_poll(self);
-        context_draw(self);
         context_update(self);
+        SDL_RenderPresent(self->window->sdl_rend);
     }
 }
 
-void context_draw(Context *self)
+void context_update(Context *self)
 {
     Event *e = (Event *)self->events->data;
 
     for (size_t i = 0; i < self->events->end; i++) {
-        if (e->req)
-            e->action();
+        if (e[i].req)
+            e[i].action();
     }
 }
 
@@ -65,9 +65,4 @@ void context_poll(Context *self)
             break;
         }
     }
-}
-
-void context_update(Context *self)
-{
-    SDL_RenderPresent(self->window->sdl_rend);
 }

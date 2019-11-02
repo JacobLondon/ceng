@@ -1,5 +1,6 @@
 .vscode
 .DS_Store
 ceng
+ceng.exe
 *.o
 core

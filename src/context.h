@@ -20,14 +20,13 @@ typedef struct context_s {
     struct mouse_s {
         int x, y;
     } mouse;
-    Color bgc;
+    Color back;
 } Context;
 
 Context *context_new(Window *window);
 void context_free(Context *self);
 void context_run(Context *self);
-void context_draw(Context *self);
-void context_poll(Context *self);
 void context_update(Context *self);
+void context_poll(Context *self);
 
 #endif // CENG_CONTEXT_H_

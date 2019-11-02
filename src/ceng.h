@@ -3,5 +3,6 @@
 
 #include "globals.h"
 #include "context.h"
+#include "painter.h"
 
 #endif // CENG_CENG_H_

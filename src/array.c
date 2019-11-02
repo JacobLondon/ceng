@@ -19,7 +19,7 @@ void array_free(Array *self)
     if (!self)
         return;
     
-    if (self->data)
+    if (self->data && self->data_free)
         self->data_free(self->data);
     
     free(self);
@@ -31,5 +31,5 @@ void array_append(Array *self, void *value)
     if (self->end == self->len)
         self->data = realloc(self->data, self->len * ARRAY_RESIZE_AMT);
 
-    *((&self->data) + self->end) = value;
+    *((&self->data) + self->end++) = value;
 }

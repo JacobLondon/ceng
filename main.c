@@ -1,24 +1,46 @@
-#include "src/ceng.h"
-#undef main
-
 #include <stdio.h>
 
-static void grid()
+#include "src/ceng.h"
+
+/**
+ * Globals
+ */
+
+static Context *ctx;
+static Window *window;
+
+// custom globals
+static bool call_loop = true;
+
+/**
+ * Event functions
+ */
+
+static void loop()
 {
     
 }
 
-int main(int argc, char** argv)
-{
-    Window *window = window_new("Ceng", 640, 480);
-    Context *ctx   = context_new(window);
+/**
+ * Initialization
+ */
 
-    // setup
-    Event ge = event_new(true, grid);
+static void setup()
+{
+    Event ge = event_new(&call_loop, loop);
     array_append(ctx->events, &ge);
+}
+
+int main()
+{
+    window = window_new("Ceng", 640, 480);
+    ctx    = context_new(window);
+
+    setup();
 
     context_run(ctx);
 
+    // tear down
     context_free(ctx);
     window_free(window);
 

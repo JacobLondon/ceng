@@ -20,7 +20,7 @@ typedef struct context_s {
     struct mouse_s {
         int x, y;
     } mouse;
-    Color back;
+    SDL_Color back;
 } Context;
 
 Context *context_new(Window *window);

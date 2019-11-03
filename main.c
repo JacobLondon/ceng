@@ -10,23 +10,31 @@ static Context *ctx;
 static Window *window;
 
 // custom globals
-static bool call_loop = true;
+static bool call_keys = true;
+static bool call_draw = true;
 
 /**
  * Event functions
  */
 
-static void loop()
+static void keys()
 {
-    //painter_rect(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
-    //painter_rect_fill(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
-    painter_circle_fill(window->rend, RED, ctx->mouse.x, ctx->mouse.y, 100);
-
     if (ctx->keystate[SDL_SCANCODE_ESCAPE]) {
         printf("Exiting...\n");
         ctx->window->quit = true;
     }
+    else if (ctx->keystate[SDL_SCANCODE_SPACE])
+        call_draw = false;
+    else if (ctx->keystate[SDL_SCANCODE_LSHIFT])
+        call_draw = true;
 
+}
+
+static void draw()
+{
+    //painter_rect(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
+    //painter_rect_fill(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
+    painter_circle_fill(window->rend, RED, ctx->mouse.x, ctx->mouse.y, 100);
 }
 
 /**
@@ -35,14 +43,16 @@ static void loop()
 
 static void setup()
 {
-    Event loop_event = event_new(&call_loop, loop);
-    array_push(ctx->events, &loop_event);
+    Event *keys_event = event_new(&call_keys, keys);
+    array_push(ctx->events, keys_event);
+    Event *draw_event = event_new(&call_draw, draw);
+    array_push(ctx->events, draw_event);
 }
 
 int main()
 {
     window = window_new("Ceng", 640, 480);
-    ctx    = context_new(window);
+    ctx    = context_new(window, 60);
 
     setup();
 

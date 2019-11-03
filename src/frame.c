@@ -7,9 +7,15 @@
 #include <unistd.h>
 #endif
 
-FrameLimiter frame_new(unsigned int fps)
+FrameLimiter *frame_new(unsigned int fps)
 {
-    FrameLimiter self = (FrameLimiter){clock(), clock(), fps, 1, CLOCKS_PER_SEC / fps};
+    FrameLimiter *self = malloc(sizeof(FrameLimiter));
+    self->current = clock();
+    self->next = clock();
+    self->fps = fps;
+    self->frame_time = 1;
+    self->clocks_per_frame = CLOCKS_PER_SEC / fps;
+
     return self;
 }
 

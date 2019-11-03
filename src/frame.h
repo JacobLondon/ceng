@@ -10,7 +10,7 @@ typedef struct frame_limiter_s {
     clock_t clocks_per_frame;
 } FrameLimiter;
 
-FrameLimiter frame_new(unsigned int fps);
+FrameLimiter *frame_new(unsigned int fps);
 void frame_waitfor(FrameLimiter *self);
 
 #endif // CENG_FRAME_H_

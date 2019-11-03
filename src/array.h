@@ -7,14 +7,13 @@
 #define ARRAY_RESIZE_AMT 2
 
 typedef struct array_s {
-    void (* data_free)(void *data);
-    void *data;
-    size_t data_size;
+    void (* free_fn)(void *buf);
+    void **buf;
     size_t end;
-    size_t len;
+    size_t size;
 } Array;
 
-Array *array_new(size_t data_size, void (* data_free)(void *data));
+Array *array_new(void (* free_fn)(void *buf));
 void array_free(Array *self);
 void array_push(Array *self, void *value);
 void array_pop(Array *self);

@@ -3,6 +3,7 @@
 
 #include "array.h"
 #include "color.h"
+#include "frame.h"
 #include "window.h"
 
 typedef void (* event_fn)(void);
@@ -12,9 +13,10 @@ typedef struct event_s {
     event_fn action;
 } Event;
 
-Event event_new(bool *req, event_fn action);
+Event *event_new(bool *req, event_fn action);
 
 typedef struct context_s {
+    FrameLimiter *frame_l;
     Window *window;
     Array *events;
 
@@ -27,7 +29,7 @@ typedef struct context_s {
     SDL_Color back;
 } Context;
 
-Context *context_new(Window *window);
+Context *context_new(Window *window, unsigned int fps);
 void context_free(Context *self);
 void context_run(Context *self);
 void context_update(Context *self);

@@ -6,7 +6,8 @@
 typedef struct frame_limiter_s {
     clock_t current, next;
     unsigned int fps;
-    clock_t time;
+    clock_t frame_time;
+    clock_t clocks_per_frame;
 } FrameLimiter;
 
 FrameLimiter frame_new(unsigned int fps);

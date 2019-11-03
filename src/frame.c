@@ -9,28 +9,27 @@
 
 FrameLimiter frame_new(unsigned int fps)
 {
-    FrameLimiter self = (FrameLimiter){clock(), clock(), fps, 1};
+    FrameLimiter self = (FrameLimiter){clock(), clock(), fps, 1, CLOCKS_PER_SEC / fps};
     return self;
 }
 
 void frame_waitfor(FrameLimiter *self)
 {
-    clock_t clocks_per_frame = CLOCKS_PER_SEC / self->fps;
-    // TODO: Finish correct conversion
-    self->next = clock() / CLOCKS_PER_SEC;
-
-    self->time = self->next - self->current;
-    printf("Time: %d\n", self->next - self->current);
-    printf("Duration: %d\n", self->time);
-
-    if (self->time > 1000)
-        return;
+    self->next = clock();
+    self->frame_time = self->next - self->current;
+    
+    // don't wait if the frame took too long
+    if (self->frame_time >= self->clocks_per_frame || self->frame_time < 0)
+        goto Skip;
 
     #ifdef _WIN32
-        Sleep(self->time);
+        // clks left that frame * clks / s * 1s / 1000ms
+        Sleep((self->clocks_per_frame - self->frame_time) * CLOCKS_PER_SEC / 1000);
     #else // assuming Unix!!!
-        usleep(self->time * 1000)
+        // convert to milliseconds
+        usleep(1000 * (self->clocks_per_frame - self->time) * CLOCKS_PER_SEC / 1000)
     #endif
 
-    self->current = clock() / CLOCKS_PER_SEC;
+Skip:
+    self->current = clock();
 }

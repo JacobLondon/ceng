@@ -33,11 +33,11 @@ void context_free(Context *self)
 void context_run(Context *self)
 {
     while (!self->window->quit) {
-        painter_clear(self->window->sdl_rend, self->back);
+        painter_clear(self->window->rend, self->back);
 
         context_poll(self);
         context_update(self);
-        SDL_RenderPresent(self->window->sdl_rend);
+        SDL_RenderPresent(self->window->rend);
     }
 }
 

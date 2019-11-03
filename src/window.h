@@ -9,8 +9,8 @@ typedef struct window_s {
     int width;
     int height;
     bool quit;
-    SDL_Window *sdl_win;
-    SDL_Renderer *sdl_rend;
+    SDL_Window *win;
+    SDL_Renderer *rend;
 } Window;
 
 Window *window_new(char *name, int width, int height);

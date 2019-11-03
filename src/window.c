@@ -12,7 +12,7 @@ Window *window_new(char *name, int width, int height)
     self->quit = false;
     
     SDL_Init(SDL_INIT_EVERYTHING);
-    self->sdl_win = SDL_CreateWindow(
+    self->win = SDL_CreateWindow(
         name,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -20,12 +20,12 @@ Window *window_new(char *name, int width, int height)
         self->height,
         SDL_WINDOW_SHOWN
     );
-    if (!self->sdl_win) {
+    if (!self->win) {
         fprintf(stderr, "Error: failed to initialize SDL Window\n");
         exit(-1);
     }
-    self->sdl_rend = SDL_CreateRenderer(self->sdl_win, -1, 0);
-    if (!self->sdl_rend) {
+    self->rend = SDL_CreateRenderer(self->win, -1, 0);
+    if (!self->rend) {
         fprintf(stderr, "Error: failed to initialize SDL Renderer\n");
         exit(-1);
     }
@@ -38,11 +38,11 @@ void window_free(Window *self)
     if (!self)
         return;
 
-    if (self->sdl_win)
-        SDL_DestroyWindow(self->sdl_win);
+    if (self->win)
+        SDL_DestroyWindow(self->win);
     
-    if (self->sdl_rend)
-        SDL_DestroyRenderer(self->sdl_rend);
+    if (self->rend)
+        SDL_DestroyRenderer(self->rend);
 
     SDL_Quit();
 

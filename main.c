@@ -18,7 +18,9 @@ static bool call_loop = true;
 
 static void loop()
 {
-    
+    //painter_rect(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
+    //painter_rect_fill(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
+    painter_circle_fill(window->rend, RED, ctx->mouse.x, ctx->mouse.y, 100);
 }
 
 /**
@@ -28,7 +30,7 @@ static void loop()
 static void setup()
 {
     Event ge = event_new(&call_loop, loop);
-    array_append(ctx->events, &ge);
+    array_push(ctx->events, &ge);
 }
 
 int main()

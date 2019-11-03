@@ -16,6 +16,7 @@ typedef struct array_s {
 
 Array *array_new(size_t data_size, void (* data_free)(void *data));
 void array_free(Array *self);
-void array_append(Array *self, void *value);
+void array_push(Array *self, void *value);
+void array_pop(Array *self);
 
 #endif // CENG_ARRAY_H_

@@ -25,11 +25,17 @@ void array_free(Array *self)
     free(self);
 }
 
-void array_append(Array *self, void *value)
+void array_push(Array *self, void *value)
 {
     // realloc for more space
     if (self->end == self->len)
         self->data = realloc(self->data, self->len * ARRAY_RESIZE_AMT);
 
     *((&self->data) + self->end++) = value;
+}
+
+void array_pop(Array *self)
+{
+    if (self->end > 0)
+        self->end--;
 }

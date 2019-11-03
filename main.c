@@ -35,8 +35,8 @@ static void loop()
 
 static void setup()
 {
-    Event ge = event_new(&call_loop, loop);
-    array_push(ctx->events, &ge);
+    Event loop_event = event_new(&call_loop, loop);
+    array_push(ctx->events, &loop_event);
 }
 
 int main()

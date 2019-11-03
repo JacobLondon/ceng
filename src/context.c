@@ -14,7 +14,7 @@ Context *context_new(Window *window)
 {
     Context *self  = malloc(sizeof(Context));
     self->window   = window;
-    self->events   = array_new(sizeof(event_fn), NULL);
+    self->events   = array_new(sizeof(Event), NULL);
     self->mouse.x  = 0;
     self->mouse.y  = 0;
     SDL_PumpEvents();

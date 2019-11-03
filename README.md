@@ -3,14 +3,12 @@ SDL2 used to create graphics in C.
 
 # Requirements
 * SDL2 must be linked
-    * Linux
-        * Debian-based: sudo apt-get install libsdl2-dev
-    * Windows/Mac
-        * https://www.libsdl.org/
-        * Navigate to the downloads page and find your version
-* usleep
-    * The function `usleep` is used, this will work on Unix systems.
-    * Windows users, check `frame_limiter.c` to adjust the `unistd.h` import for `usleep` as needed
+  * Linux
+    * Debian-based: sudo apt-get install libsdl2-dev
+  * Windows and Mac
+    * Download SDL2: https://www.libsdl.org/
+      * Place the DLL in the project root.
+      * Make the SDL2 include folder for your compiler.
 
 # Building
 * Build: `make`

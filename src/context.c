@@ -33,6 +33,7 @@ void context_free(Context *self)
         return;
     
     array_free(self->events);
+    free(self->frame_l);
     free(self);
 }
 

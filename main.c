@@ -21,6 +21,12 @@ static void loop()
     //painter_rect(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
     //painter_rect_fill(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
     painter_circle_fill(window->rend, RED, ctx->mouse.x, ctx->mouse.y, 100);
+
+    if (ctx->keystate[SDL_SCANCODE_ESCAPE]) {
+        printf("Exiting...\n");
+        ctx->window->quit = true;
+    }
+
 }
 
 /**

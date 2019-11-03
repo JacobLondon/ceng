@@ -17,9 +17,13 @@ Event event_new(bool *req, event_fn action);
 typedef struct context_s {
     Window *window;
     Array *events;
+
     struct mouse_s {
         int x, y;
     } mouse;
+
+    unsigned char *keystate;
+
     SDL_Color back;
 } Context;
 

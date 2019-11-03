@@ -24,7 +24,7 @@ void painter_circle(SDL_Renderer *rend, SDL_Color c, int x, int y, int radius)
 
     // https://stackoverflow.com/questions/38334081/howto-draw-circles-arcs-and-vector-graphics-in-sdl
 
-    const int diameter = (radius * 2);
+    int diameter = (radius * 2);
 
     int cx = (radius - 1);
     int cy = 0;
@@ -77,4 +77,11 @@ void painter_circle_fill(SDL_Renderer *rend, SDL_Color c, int x, int y, int radi
             }
         }
     }
+}
+
+void painter_line(SDL_Renderer *rend, SDL_Color c, int x1, int y1, int x2, int y2)
+{
+    SDL_SetRenderDrawColor(rend, c.r, c.g, c.b, c.a);
+
+    SDL_RenderDrawLine(rend, x1, y1, x2, y2);
 }

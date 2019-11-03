@@ -3,6 +3,7 @@
 
 #define WHITE   (SDL_Color){255, 255, 255, 255}
 #define GRAY    (SDL_Color){128, 128, 128, 255}
+#define DARK    (SDL_Color){5, 5, 5, 255}
 #define BLACK   (SDL_Color){0, 0, 0, 255}
 #define BROWN   (SDL_Color){102, 51, 0, 255}
 

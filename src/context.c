@@ -2,6 +2,7 @@
 
 #include "context.h"
 #include "painter.h"
+#include "frame.h"
 
 Event event_new(bool *req, event_fn action)
 {
@@ -34,12 +35,16 @@ void context_free(Context *self)
 
 void context_run(Context *self)
 {
+    FrameLimiter fl = frame_new(60);
+
     while (!self->window->quit) {
         painter_clear(self->window->rend, self->back);
 
         context_poll(self);
         context_update(self);
         SDL_RenderPresent(self->window->rend);
+
+        frame_waitfor(&fl);
     }
 }
 

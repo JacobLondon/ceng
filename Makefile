@@ -4,7 +4,7 @@ WINTARGET=ceng.exe
 CC=gcc
 CFLAGS=-lSDL2 -lSDL2main -O2 -Wall -Wextra
 
-OBJ_FILES=src/array.o src/context.o src/painter.o src/window.o \
+OBJ_FILES=src/array.o src/context.o src/frame.o src/painter.o src/window.o \
 		  main.o
 
 .PHONY: clean

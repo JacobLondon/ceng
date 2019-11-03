@@ -2,6 +2,7 @@
 #define CENG_CENG_H_
 
 #include "context.h"
+#include "frame.h"
 #include "painter.h"
 
 #undef main

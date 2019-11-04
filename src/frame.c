@@ -25,17 +25,19 @@ void frame_waitfor(FrameLimiter *self)
 {
     self->next = clock();
     self->frame_time = self->next - self->current;
-    
+
     // don't wait if the frame took too long
     if (self->frame_time >= self->clocks_per_frame || self->frame_time < 0)
         goto Skip;
 
+    clock_t difference = self->clocks_per_frame - self->frame_time;
+
     #ifdef _WIN32
         // clks left that frame * clks / s * 1s / 1000ms
-        Sleep((self->clocks_per_frame - self->frame_time) * CLOCKS_PER_SEC / 1000);
+        Sleep(difference * CLOCKS_PER_SEC / 1000);
     #else // assuming Unix!!!
-        // convert to milliseconds
-        usleep(1000 * (self->clocks_per_frame - self->frame_time) * CLOCKS_PER_SEC / 1000);
+        // already in microseconds
+        usleep(difference);
     #endif
 
 Skip:

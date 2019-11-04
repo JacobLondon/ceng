@@ -22,8 +22,8 @@ void array_free(Array *self)
         goto Skip;
 
     for (size_t i = 0; i < self->end; i++) {
-        if (*(self->buf + self->end++)) {
-            self->free_fn(*(self->buf + self->end++));
+        if (*(self->buf + i)) {
+            self->free_fn(*(self->buf + i));
         }
     }
 

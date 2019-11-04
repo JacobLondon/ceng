@@ -13,4 +13,4 @@ $(TARGET) : $(OBJ_FILES)
 	$(CC) -o $(TARGET) $(OBJ_FILES) $(CFLAGS)
 
 clean:
-	rm -rf $(TARGET) $(WINTARGET) $(OBJ_FILES)
+	rm -rf $(TARGET) $(WINTARGET) $(OBJ_FILES) core

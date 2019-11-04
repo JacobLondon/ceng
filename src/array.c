@@ -4,11 +4,11 @@
 
 Array *array_new(void (* free_fn)(void *buf))
 {
-    Array *self = malloc(sizeof(Array));
+    Array *self   = malloc(sizeof(Array));
     self->free_fn = free_fn;
-    self->buf = malloc(sizeof(char *) * ARRAY_DEFAULT_LEN);
-    self->end = 0;
-    self->size = ARRAY_DEFAULT_LEN;
+    self->buf     = malloc(sizeof(char *) * ARRAY_DEFAULT_LEN);
+    self->end     = 0;
+    self->size    = ARRAY_DEFAULT_LEN;
 
     return self;
 }

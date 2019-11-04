@@ -6,8 +6,8 @@
 
 Event *event_new(bool *req, event_fn action)
 {
-    Event *self = malloc(sizeof(Event));
-    self->req = req;
+    Event *self  = malloc(sizeof(Event));
+    self->req    = req;
     self->action = action;
     return self;
 }

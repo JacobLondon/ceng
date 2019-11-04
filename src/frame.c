@@ -1,4 +1,4 @@
-#include "frame.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 #ifdef _WIN32
@@ -6,6 +6,8 @@
 #else // assuming Unix!!!
 #include <unistd.h>
 #endif
+
+#include "frame.h"
 
 FrameLimiter *frame_new(unsigned int fps)
 {
@@ -33,7 +35,7 @@ void frame_waitfor(FrameLimiter *self)
         Sleep((self->clocks_per_frame - self->frame_time) * CLOCKS_PER_SEC / 1000);
     #else // assuming Unix!!!
         // convert to milliseconds
-        usleep(1000 * (self->clocks_per_frame - self->time) * CLOCKS_PER_SEC / 1000)
+        usleep(1000 * (self->clocks_per_frame - self->frame_time) * CLOCKS_PER_SEC / 1000);
     #endif
 
 Skip:

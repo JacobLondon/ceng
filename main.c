@@ -1,66 +1,23 @@
 #include <stdio.h>
+#include <string.h>
 
-#include "src/ceng.h"
+#include "demo/demo.h"
 
-/**
- * Globals
- */
-
-static Context *ctx;
-static Window *window;
-
-// custom globals
-static bool call_keys = true;
-static bool call_draw = true;
-
-/**
- * Event functions
- */
-
-static void keys()
+int main(int argc, char **argv)
 {
-    if (ctx->keystate[SDL_SCANCODE_ESCAPE]) {
-        printf("Exiting...\n");
-        ctx->window->quit = true;
+    for (int i = 0; i < argc; i++) {
+        if (argv[i][0] == '-') {
+            switch (argv[i][1]) {
+            case 'f':
+                first();
+                goto Exit;
+            case 'c':
+                circle();
+                goto Exit;
+            }
+        }
     }
-    else if (ctx->keystate[SDL_SCANCODE_SPACE])
-        call_draw = false;
-    else if (ctx->keystate[SDL_SCANCODE_LSHIFT])
-        call_draw = true;
 
-}
-
-static void draw()
-{
-    //painter_rect(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
-    //painter_rect_fill(window->rend, RED, (SDL_Rect){ctx->mouse.x-50, ctx->mouse.y-50, 100, 100});
-    painter_circle_fill(window->rend, RED, ctx->mouse.x, ctx->mouse.y, 100);
-}
-
-/**
- * Initialization
- */
-
-static void setup()
-{
-    Event *keys_event = event_new(&call_keys, keys);
-    array_push(ctx->events, keys_event);
-    Event *draw_event = event_new(&call_draw, draw);
-    array_push(ctx->events, draw_event);
-}
-
-int main()
-{
-    window = window_new("Ceng", 640, 480);
-    ctx    = context_new(window, 60);
-
-    setup();
-
-    context_run(ctx);
-
-    // tear down
-    context_free(ctx);
-    window_free(window);
-
+Exit:
     return 0;
 }

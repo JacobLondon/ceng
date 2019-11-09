@@ -2,9 +2,10 @@ TARGET=ceng
 WINTARGET=ceng.exe
 
 CC=gcc
-CFLAGS=-lSDL2 -lSDL2main -O2 -Wall -Wextra
+CFLAGS=-lSDL2 -lSDL2main -O2 -Wall -Wextra -lm
 
 OBJ_FILES=src/array.o src/context.o src/frame.o src/painter.o src/window.o \
+		  demo/circle.o demo/first.o \
 		  main.o
 
 .PHONY: clean

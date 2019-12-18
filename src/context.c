@@ -46,7 +46,7 @@ void context_run(Context *self)
         context_update(self);
         SDL_RenderPresent(self->window->rend);
 
-        frame_waitfor(self->frame_l);
+        frame_wait(self->frame_l, false);
     }
 }
 

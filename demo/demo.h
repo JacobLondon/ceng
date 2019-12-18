@@ -5,5 +5,6 @@
 
 void circle();
 void first();
+void cast();
 
 #endif // CENG_DEMO_H_

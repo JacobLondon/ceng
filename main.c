@@ -14,6 +14,9 @@ int main(int argc, char **argv)
             case 'c':
                 circle();
                 goto Exit;
+            case 'a':
+                cast();
+                goto Exit;
             }
         }
     }

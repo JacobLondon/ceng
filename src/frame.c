@@ -20,8 +20,9 @@ FrameLimiter *frame_new(unsigned int fps)
     return self;
 }
 
-void frame_waitfor(FrameLimiter *self)
+void frame_wait(FrameLimiter *self, bool wait)
 {
+    if (!wait) return;
     self->next = clock();
     self->frame_time = self->next - self->current;
 

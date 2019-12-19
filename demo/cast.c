@@ -8,13 +8,23 @@ bool call_keys = true;
 void draw();
 bool call_draw = true;
 
-unsigned cast();
+void cast();
 void setup();
+
+void keys()
+{
+
+}
+
+void draw()
+{
+    
+}
 
 void setup()
 {
     event_insert(ctx, keys, call_keys);
-    event_insert(ctx, draw, call_draw)
+    event_insert(ctx, draw, call_draw);
 }
 
 void cast()
@@ -23,7 +33,7 @@ void cast()
     ctx    = context_new(window, 60);
 
     setup();
-    context_run();
+    context_run(ctx);
 
     context_free(ctx);
     window_free(window);
